@@ -7,6 +7,7 @@ project(cuboids VERSION 0.1 LANGUAGES C CXX)
 set(EXECUTABLE_OUTPUT_PATH ./${CMAKE_BUILD_TYPE})
 
 add_executable(cuboids
+    third-party/glad/src/gl.c
     src/main.cpp
 )
 
@@ -14,7 +15,8 @@ find_package(GLFW REQUIRED)
 
 target_include_directories(cuboids
     PUBLIC
-        ${GLFW_INCLUDE_DIR}    
+        ${GLFW_INCLUDE_DIR}
+        third-party/glad/include
 )
 
 target_link_directories(cuboids
