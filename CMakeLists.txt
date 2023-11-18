@@ -9,3 +9,20 @@ set(EXECUTABLE_OUTPUT_PATH ./${CMAKE_BUILD_TYPE})
 add_executable(cuboids
     src/main.cpp
 )
+
+find_package(GLFW REQUIRED)
+
+target_include_directories(cuboids
+    PUBLIC
+        ${GLFW_INCLUDE_DIR}    
+)
+
+target_link_directories(cuboids
+    PUBLIC
+        ${GLFW_LIBRARY}
+)
+
+target_link_libraries(cuboids
+    glfw3
+    opengl32
+)
