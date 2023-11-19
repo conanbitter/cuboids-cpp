@@ -9,6 +9,10 @@ set(EXECUTABLE_OUTPUT_PATH ./${CMAKE_BUILD_TYPE})
 add_executable(cuboids
     third-party/glad/src/gl.c
     src/main.cpp
+    src/vectors.hpp
+    src/vectors.cpp
+    src/display/shaders.hpp
+    src/display/shaders.cpp
 )
 
 find_package(GLFW REQUIRED)
