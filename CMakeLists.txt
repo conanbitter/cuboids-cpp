@@ -13,6 +13,8 @@ add_executable(cuboids
     src/vectors.cpp
     src/display/shaders.hpp
     src/display/shaders.cpp
+    src/display/window.hpp
+    src/display/window.cpp
 )
 
 find_package(GLFW REQUIRED)
