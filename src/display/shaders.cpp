@@ -69,7 +69,7 @@ GLuint compileShader(const char* source, GLenum shaderType) {
     return shader;
 }
 
-Shader compileShaderProgram(const char* vertexShaderCode, const char* fragmentShaderCode) {
+GLuint compileShaderProgram(const char* vertexShaderCode, const char* fragmentShaderCode) {
     GLuint program = glCreateProgram();
 
     GLuint compiledVertexShader = compileShader(vertexShaderCode, GL_VERTEX_SHADER);

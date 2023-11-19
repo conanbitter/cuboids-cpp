@@ -39,11 +39,11 @@ class Renderer {
     void setViewport(int width, int height);
 
    private:
-    Renderer();
-    ~Renderer();
+    Renderer() : state{RendererState::NotReady} {}
+    void free();
     void init();
 
-    Shader program;
+    GLuint program;
     GLuint vao;
     GLuint vbo;
     GLint arLocation;

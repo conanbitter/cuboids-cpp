@@ -41,11 +41,6 @@ AppWindow::AppWindow(const std::string title, int width, int height) {
 
     glfwMakeContextCurrent(window);
 
-    int version = gladLoadGL(glfwGetProcAddress);
-    if (version == 0) {
-        std::cout << "Failed to initialize OpenGL context" << std::endl;
-    }
-    std::cout << "OpenGL version " << GLAD_VERSION_MAJOR(version) << "." << GLAD_VERSION_MINOR(version) << std::endl;
     gfx.init();
     gfx.setViewport(width, height);
 
@@ -73,10 +68,9 @@ void AppWindow::run() {
             elapsed -= TICK_RATE;
         }
 
-        glClear(GL_COLOR_BUFFER_BIT);
-        // gfx.startRender()
+        gfx.startRender();
         onDraw();
-        // gfx.finishRender()
+        gfx.finishRender();
         glfwSwapBuffers(window);
     }
 
@@ -84,7 +78,7 @@ void AppWindow::run() {
 }
 
 AppWindow::~AppWindow() {
-    std::cout << "Windows destruction" << std::endl;
+    gfx.free();
     glfwDestroyWindow(window);
     glfwTerminate();
 }
