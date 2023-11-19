@@ -1,5 +1,6 @@
 #pragma once
 
+#include <GLFW/glfw3.h>
 #include <string>
 
 enum class KeyCode { KeyLeft,
@@ -14,7 +15,6 @@ class AppWindow {
    private:
     int windowWidth;
     int windowHeight;
-    bool working;
     double prevTime;
     double elapsed;
     GLFWwindow* window;
@@ -30,7 +30,7 @@ class AppWindow {
     ~AppWindow();
 
     bool isKeyPressed(KeyCode key);
-    void requestExit() { working = false; }
+    void requestExit();
     void setTitle(std::string title);
 
     virtual void onLoad() {}
