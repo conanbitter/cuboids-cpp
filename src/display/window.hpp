@@ -2,6 +2,7 @@
 
 #include <GLFW/glfw3.h>
 #include <string>
+#include "renderer.hpp"
 
 enum class KeyCode { KeyLeft,
                      KeyRight,
@@ -23,7 +24,7 @@ class AppWindow {
     AppWindow& operator=(const AppWindow&) = delete;
 
    public:
-    // Renderer gfx;
+    Renderer gfx;
 
     AppWindow(const std::string title, int width, int height);
     void run();

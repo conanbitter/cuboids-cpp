@@ -15,6 +15,8 @@ add_executable(cuboids
     src/display/shaders.cpp
     src/display/window.hpp
     src/display/window.cpp
+    src/display/renderer.hpp
+    src/display/renderer.cpp
 )
 
 find_package(GLFW REQUIRED)

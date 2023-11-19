@@ -15,8 +15,8 @@ const int keymap[] = {
     GLFW_KEY_C};
 
 void sizeCallback(GLFWwindow* window, int width, int height) {
-    // Renderer* renderer = (Renderer*)(glfwGetWindowUserPointer(window));
-    // renderer->setViewport(width, height);
+    Renderer* renderer = (Renderer*)(glfwGetWindowUserPointer(window));
+    renderer->setViewport(width, height);
 }
 
 AppWindow::AppWindow(const std::string title, int width, int height) {
@@ -46,8 +46,10 @@ AppWindow::AppWindow(const std::string title, int width, int height) {
         std::cout << "Failed to initialize OpenGL context" << std::endl;
     }
     std::cout << "OpenGL version " << GLAD_VERSION_MAJOR(version) << "." << GLAD_VERSION_MINOR(version) << std::endl;
+    gfx.init();
+    gfx.setViewport(width, height);
 
-    // glfwSetWindowUserPointer(window, &gfx);
+    glfwSetWindowUserPointer(window, &gfx);
     glfwSetWindowSizeCallback(window, sizeCallback);
     elapsed = 0.0;
     prevTime = glfwGetTime();
