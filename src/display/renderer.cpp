@@ -90,10 +90,70 @@ void Renderer::startRender() {
     state = RendererState::Ready;
 }
 
-void Renderer::beginDraw(RenderType renderType) {}
-void Renderer::addPoint(Vector2D pos, Color color) {}
-void Renderer::endDraw() {}
+void Renderer::beginDraw(RenderType renderType) {
+    if (state == RendererState::NotReady) {
+        return;
+    }
+    vertices.clear();
+    switch (renderType) {
+        case RenderType::Points:
+            state = RendererState::DrawingPoints;
+            break;
+        case RenderType::Lines:
+            state = RendererState::DrawingLines;
+            isNewLine = true;
+            break;
+    }
+}
+
+void Renderer::addPoint(Vector2D pos, Color color) {
+    Vertex newVertex{pos = pos, color = color};
+    if (state == RendererState::DrawingPoints) {
+        vertices.push_back(newVertex);
+    } else if (state == RendererState::DrawingLines) {
+        if (isNewLine) {
+            isNewLine = false;
+        } else {
+            vertices.push_back(lastVertex);
+            vertices.push_back(newVertex);
+        }
+        lastVertex = newVertex;
+    }
+}
+
+void Renderer::endDraw() {
+    GLenum drawType = GL_KEEP;  // a dummy value
+    if (state == RendererState::DrawingPoints) {
+        drawType = GL_POINTS;
+    } else if (state == RendererState::DrawingLines) {
+        drawType = GL_LINES;
+    }
+    if (drawType != GL_KEEP) {
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_DYNAMIC_DRAW);
+        glDrawArrays(drawType, 0, vertices.size());
+        state = RendererState::Ready;
+    }
+}
+
 void Renderer::finishRender() {
     state = RendererState::NotReady;
 }
-void Renderer::setViewport(int width, int height) {}
+
+const float thickRate = 1080.0 / 3.0;
+
+void Renderer::setViewport(int width, int height) {
+    glViewport(0, 0, width, height);
+    float newAr = (float)width / (float)height;
+    glUniform1f(arLocation, newAr);
+    float newThickness = (float)height / thickRate;
+    if (newThickness < MIN_LINE_THICKNESS) {
+        newThickness = MIN_LINE_THICKNESS;
+    }
+    if (newThickness > MAX_LINE_THICKNESS) {
+        newThickness = MAX_LINE_THICKNESS;
+    }
+    glLineWidth(newThickness);
+    glPointSize(newThickness);
+    thickness = newThickness / (float)height;
+    bounds = Vector2D(newAr, 1.0);
+}

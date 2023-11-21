@@ -49,6 +49,7 @@ class Renderer {
     GLint arLocation;
     RendererState state;
     std::vector<Vertex> vertices;
+    Vertex lastVertex;
     bool isNewLine;
     float thickness;
     Vector2D bounds;
