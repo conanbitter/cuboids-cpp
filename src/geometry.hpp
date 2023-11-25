@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "vectors.hpp"
+#include "display/renderer.hpp"
 
 struct Shape {
     std::vector<Vector2D> points;
@@ -17,7 +18,22 @@ struct Transform {
 
     Transform() : offset(0, 0), scale(1.0), angle(0) {}
     Transform(Vector2D offset, float scale, float angle) : offset(offset), scale(scale), angle(angle) {}
-    Transform move(Vector2D distance);
-    Transform rotate(float rotation);
-    Vector2D apply(Vector2D point);
+    Transform move(Vector2D distance) const;
+    Transform rotate(float rotation) const;
+    Vector2D apply(Vector2D point) const;
+};
+
+void drawGeometry(Renderer& renderer, const Shape& shape, const Transform& transform, Color color);
+
+class Figure {
+   public:
+    Shape* shape;
+    Transform transform;
+    Color color;
+    Renderer& renderer;
+    float radius;
+
+    Figure(Renderer& renderer, Shape* shape, float scale);
+    void draw();
+    void move(Vector2D offset);
 };
