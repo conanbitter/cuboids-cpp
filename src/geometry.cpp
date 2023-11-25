@@ -33,7 +33,8 @@ void drawGeometry(Renderer& renderer, const Shape* shape, const Transform& trans
     }
 }
 
-Figure::Figure(Renderer& renderer, Shape* shape, float scale = 1.0f) : renderer(renderer), shape(shape) {
+Figure::Figure(Renderer& renderer, Shape* shape, float scale = 1.0f, int collision = 0)
+    : renderer(renderer), shape(shape), collisionGroup(collision) {
     transform.scale = scale;
     color = Color{200, 200, 200, 255};
     radius = shape->radius * scale;

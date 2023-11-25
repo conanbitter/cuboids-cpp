@@ -12,7 +12,7 @@ class GameWindow : public AppWindow {
     Figure ship;
 
    public:
-    GameWindow() : AppWindow("Cuboids", 800, 600), ship(gfx, &SHAPE_SHIP, 0.1f) {}
+    GameWindow() : AppWindow("Cuboids", 800, 600), ship(gfx, &SHAPE_SHIP, SHIP_SCALE, 1) {}
 
     void onDraw() {
         gfx.beginDraw(RenderType::Lines);

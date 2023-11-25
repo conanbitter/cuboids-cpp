@@ -25,6 +25,12 @@ struct Transform {
 
 void drawGeometry(Renderer& renderer, const Shape& shape, const Transform& transform, Color color);
 
+enum class FigureState {
+    Active,
+    Delete,
+    Idle
+};
+
 class Figure {
    public:
     Shape* shape;
@@ -32,8 +38,11 @@ class Figure {
     Color color;
     Renderer& renderer;
     float radius;
+    FigureState state;
+    int collisionGroup;
 
-    Figure(Renderer& renderer, Shape* shape, float scale);
-    void draw();
+    Figure(Renderer& renderer, Shape* shape, float scale, int collision);
+    virtual void draw();
+    virtual void update() {}
     void move(Vector2D offset);
 };
