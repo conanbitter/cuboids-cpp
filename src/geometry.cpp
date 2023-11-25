@@ -14,3 +14,14 @@ Shape::Shape(bool closed, std::initializer_list<Vector2D> input) {
         points.push_back(points[0]);
     }
 }
+
+Transform Transform::move(Vector2D distance) {
+    return Transform(offset + distance, scale, angle);
+}
+Transform Transform::rotate(float rotation) {
+    return Transform(offset, scale, angle + rotation);
+}
+
+Vector2D Transform::apply(Vector2D point) {
+    return point.rotate(angle) * scale + offset;
+}
