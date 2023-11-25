@@ -8,13 +8,13 @@ extern Shape SHAPE_ASTER;
 
 extern Shape SHAPE_PROJ;
 
-const float SHIP_SCALE;
-const float SHIP_MAX_SPEED;
-const float SHIP_ACCELERATION;
-const float SHIP_DRAG;
-const float SHIP_ROT_SPEED;
+extern const float SHIP_SCALE;
+extern const float SHIP_MAX_SPEED;
+extern const float SHIP_ACCELERATION;
+extern const float SHIP_DRAG;
+extern const float SHIP_ROT_SPEED;
 
-const float ASTER_SCALE;
+extern const float ASTER_SCALE;
 
-const float PROJ_SCALE;
-const float PROJ_SPEED;
+extern const float PROJ_SCALE;
+extern const float PROJ_SPEED;
