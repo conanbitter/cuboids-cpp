@@ -17,6 +17,10 @@ add_executable(cuboids
     src/display/window.cpp
     src/display/renderer.hpp
     src/display/renderer.cpp
+    src/geometry.hpp
+    src/geometry.cpp
+    src/constants.hpp
+    src/constants.cpp
 )
 
 find_package(GLFW REQUIRED)
