@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include "display/window.hpp"
@@ -9,14 +10,16 @@
 const Color colorWhite = Color{210, 210, 210, 255};
 
 class GameWindow : public AppWindow {
-    Figure ship;
+    FigureManager figureMan;
 
    public:
-    GameWindow() : AppWindow("Cuboids", 800, 600), ship(gfx, &SHAPE_SHIP, SHIP_SCALE, 1) {}
+    GameWindow() : AppWindow("Cuboids", 800, 600) {
+        figureMan.add(std::make_unique<Figure>(*this, &SHAPE_SHIP, SHIP_SCALE, 1));
+    }
 
     void onDraw() {
         gfx.beginDraw(RenderType::Lines);
-        ship.draw();
+        figureMan.draw();
         gfx.endDraw();
     }
 };

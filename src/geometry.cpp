@@ -33,17 +33,39 @@ void drawGeometry(Renderer& renderer, const Shape* shape, const Transform& trans
     }
 }
 
-Figure::Figure(Renderer& renderer, Shape* shape, float scale = 1.0f, int collision = 0)
-    : renderer(renderer), shape(shape), collisionGroup(collision) {
+Figure::Figure(AppWindow& app, Shape* shape, float scale = 1.0f, int collision = 0)
+    : app(app), shape(shape), collisionGroup(collision) {
     transform.scale = scale;
     color = Color{200, 200, 200, 255};
     radius = shape->radius * scale;
+    state = FigureState::Active;
 }
 
 void Figure::draw() {
-    drawGeometry(renderer, shape, transform, color);
+    drawGeometry(app.gfx, shape, transform, color);
 }
 
 void Figure::move(Vector2D offset) {
     transform = transform.move(offset);
+}
+
+void FigureManager::add(PFigure figure) {
+    figures.push_back(std::move(figure));
+}
+
+void FigureManager::draw() {
+    for (auto& figure : figures) {
+        if (figure->state == FigureState::Active) {
+            figure->draw();
+        }
+    }
+}
+
+void FigureManager::update() {
+    for (auto& figure : figures) {
+        if (figure->state == FigureState::Active) {
+            figure->update();
+        }
+    }
+    // TODO: Add cleaning of deleted figures
 }
