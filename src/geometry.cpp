@@ -67,5 +67,10 @@ void FigureManager::update() {
             figure->update();
         }
     }
-    // TODO: Add cleaning of deleted figures
+    for (size_t i = 0; i < figures.size(); i++) {
+        if (figures[i]->state == FigureState::Delete) {
+            figures[i] = std::move(figures.back());
+            figures.pop_back();
+        }
+    }
 }
