@@ -19,10 +19,9 @@ float Vector2D::length() {
     return sqrtf(x * x + y * y);
 }
 
-void Vector2D::toUnit() {
+Vector2D Vector2D::toUnit() {
     float len = 1 / length();
-    x *= len;
-    y *= len;
+    return Vector2D(x * len, y * len);
 }
 
 float Vector2D::distance(const Vector2D& other) {

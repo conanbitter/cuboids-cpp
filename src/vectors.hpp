@@ -8,7 +8,7 @@ struct Vector2D {
     Vector2D(float x, float y) : x{x}, y{y} {}
     bool isZero();
     float length();
-    void toUnit();
+    Vector2D toUnit();
     float distance(const Vector2D& other);
     friend Vector2D& operator+=(Vector2D& left, const Vector2D& right);
     friend Vector2D operator+(Vector2D left, const Vector2D& right);
