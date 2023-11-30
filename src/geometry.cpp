@@ -49,6 +49,53 @@ void Figure::move(Vector2D offset) {
     transform = transform.move(offset);
 }
 
+void WrapFigure::move(Vector2D offset) {
+    Figure::move(offset);
+    Vector2D bounds = app.gfx.getBounds();
+    float thickness = app.gfx.getThickness();
+    if (transform.offset.x > bounds.x) {
+        transform.offset.x -= bounds.x * 2;
+    }
+    if (transform.offset.x < -bounds.x) {
+        transform.offset.x += bounds.x * 2;
+    }
+    if (transform.offset.y > bounds.y) {
+        transform.offset.y -= bounds.y * 2;
+    }
+    if (transform.offset.y < -bounds.y) {
+        transform.offset.y += bounds.y * 2;
+    }
+
+    if (transform.offset.x + radius + thickness > bounds.x) {
+        xcopy = -1;
+    } else if (transform.offset.x - radius - thickness < -bounds.x) {
+        xcopy = 1;
+    } else {
+        xcopy = 0;
+    }
+
+    if (transform.offset.y + radius + thickness > bounds.y) {
+        ycopy = -1;
+    } else if (transform.offset.y - radius - thickness < -bounds.y) {
+        ycopy = 1;
+    } else {
+        ycopy = 0;
+    }
+}
+
+void WrapFigure::draw() {
+    drawGeometry(app.gfx, shape, transform, color);
+    if (xcopy != 0) {
+        drawGeometry(app.gfx, shape, transform.move(Vector2D(xcopy * app.gfx.getBounds().x * 2, 0)), color);
+        if (ycopy != 0) {
+            drawGeometry(app.gfx, shape, transform.move(Vector2D(xcopy * app.gfx.getBounds().x * 2, ycopy * app.gfx.getBounds().y * 2)), color);
+        }
+    }
+    if (ycopy != 0) {
+        drawGeometry(app.gfx, shape, transform.move(Vector2D(0, ycopy * app.gfx.getBounds().y * 2)), color);
+    }
+}
+
 void FigureManager::add(PFigure figure) {
     figures.push_back(std::move(figure));
 }

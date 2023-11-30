@@ -45,10 +45,21 @@ class Figure {
     Figure(AppWindow& app, Shape* shape, float scale, int collision);
     virtual void draw();
     virtual void update() {}
-    void move(Vector2D offset);
+    virtual void move(Vector2D offset);
 };
 
 typedef std::unique_ptr<Figure> PFigure;
+
+class WrapFigure : public Figure {
+   private:
+    int xcopy;
+    int ycopy;
+
+   public:
+    WrapFigure(AppWindow& app, Shape* shape, float scale, int collision) : Figure(app, shape, scale, collision), xcopy(0), ycopy(0) {}
+    void draw();
+    void move(Vector2D offset);
+};
 
 class FigureManager {
    private:

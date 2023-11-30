@@ -9,26 +9,27 @@
 
 const Color colorWhite = Color{210, 210, 210, 255};
 
-class Ship : public Figure {
+class Ship : public WrapFigure {
    public:
-    Ship(AppWindow& app) : Figure(app, &SHAPE_SHIP, SHIP_SCALE, 1) {}
+    Ship(AppWindow& app) : WrapFigure(app, &SHAPE_SHIP, SHIP_SCALE, 1) {}
 
     void update() {
         Vector2D speed(0, 0);
         if (app.isKeyPressed(KeyCode::KeyUp)) {
-            speed += Vector2D(0, SHIP_MAX_SPEED);
+            speed += Vector2D(0, 1);
         }
         if (app.isKeyPressed(KeyCode::KeyDown)) {
-            speed += Vector2D(0, -SHIP_MAX_SPEED);
+            speed += Vector2D(0, -1);
         }
         if (app.isKeyPressed(KeyCode::KeyLeft)) {
-            speed += Vector2D(-SHIP_MAX_SPEED, 0);
+            speed += Vector2D(-1, 0);
         }
         if (app.isKeyPressed(KeyCode::KeyRight)) {
-            speed += Vector2D(SHIP_MAX_SPEED, 0);
+            speed += Vector2D(1, 0);
         }
         if (!speed.isZero()) {
-            transform = transform.move(speed);
+            speed = speed.toUnit() * 0.01;
+            move(speed);
         }
     }
 };
