@@ -47,6 +47,8 @@ class Figure {
     virtual void update() {}
     virtual void move(Vector2D offset);
     virtual void collide(Figure& other) {}
+    virtual bool sendCollision(Figure& other);
+    virtual bool receiveCollision(const Shape& otherShape, const Transform& otherTransform);
 };
 
 typedef std::unique_ptr<Figure> PFigure;
@@ -60,6 +62,8 @@ class WrapFigure : public Figure {
     WrapFigure(AppWindow& app, Shape* shape, float scale, int collision) : Figure(app, shape, scale, collision), xcopy(0), ycopy(0) {}
     void draw();
     void move(Vector2D offset);
+    bool sendCollision(Figure& other) override;
+    bool receiveCollision(const Shape& otherShape, const Transform& otherTransform) override;
 };
 
 class FigureManager {

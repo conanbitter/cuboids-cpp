@@ -11,9 +11,7 @@ const Color colorWhite = Color{210, 210, 210, 255};
 
 class Ship : public WrapFigure {
    public:
-    Ship(AppWindow& app) : WrapFigure(app, &SHAPE_SHIP, SHIP_SCALE, 1) {
-        transform.angle = 0.5f;
-    }
+    Ship(AppWindow& app) : WrapFigure(app, &SHAPE_SHIP, SHIP_SCALE, 1) {}
 
     void update() {
         Vector2D speed(0, 0);
@@ -46,7 +44,6 @@ class Ship : public WrapFigure {
 
     void collide(Figure& other) {
         color = Color{255, 20, 20, 255};
-        // std::cout << "Ship collide" << std::endl;
     }
 };
 
@@ -56,8 +53,8 @@ class GameWindow : public AppWindow {
    public:
     GameWindow() : AppWindow("Cuboids", 800, 600) {
         figureMan.add(std::make_unique<Ship>(*this));
-        PFigure cube = std::make_unique<Figure>(*this, &SHAPE_ASTER, 0.3f, 2);
-        cube->move(Vector2D(0.5, 0));
+        PFigure cube = std::make_unique<WrapFigure>(*this, &SHAPE_ASTER, 0.3f, 2);
+        cube->move(Vector2D(1.2, 1));
         figureMan.add(std::move(cube));
     }
 

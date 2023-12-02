@@ -19,6 +19,7 @@ Shape::Shape(bool closed, std::initializer_list<Vector2D> input) {
 Transform Transform::move(Vector2D distance) const {
     return Transform(offset + distance, scale, angle);
 }
+
 Transform Transform::rotate(float rotation) const {
     return Transform(offset, scale, angle + rotation);
 }
@@ -74,7 +75,6 @@ bool checkShapeCollision(const Shape& shape1, const Transform& transform1, const
             return false;
         }
     }
-    // std::cout << "Collide" << std::endl;
     return true;
 }
 
@@ -92,6 +92,14 @@ void Figure::draw() {
 
 void Figure::move(Vector2D offset) {
     transform = transform.move(offset);
+}
+
+bool Figure::sendCollision(Figure& other) {
+    return other.receiveCollision(*shape, transform);
+}
+
+bool Figure::receiveCollision(const Shape& otherShape, const Transform& otherTransform) {
+    return checkShapeCollision(otherShape, otherTransform, *shape, transform);
 }
 
 void WrapFigure::move(Vector2D offset) {
@@ -141,6 +149,50 @@ void WrapFigure::draw() {
     }
 }
 
+bool WrapFigure::sendCollision(Figure& other) {
+    if (other.receiveCollision(*shape, transform)) {
+        return true;
+    }
+    if (xcopy != 0) {
+        if (other.receiveCollision(*shape, transform.move(Vector2D(xcopy * app.gfx.getBounds().x * 2, 0)))) {
+            return true;
+        }
+        if (ycopy != 0) {
+            if (other.receiveCollision(*shape, transform.move(Vector2D(xcopy * app.gfx.getBounds().x * 2, ycopy * app.gfx.getBounds().y * 2)))) {
+                return true;
+            }
+        }
+    }
+    if (ycopy != 0) {
+        if (other.receiveCollision(*shape, transform.move(Vector2D(0, ycopy * app.gfx.getBounds().y * 2)))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool WrapFigure::receiveCollision(const Shape& otherShape, const Transform& otherTransform) {
+    if (checkShapeCollision(otherShape, otherTransform, *shape, transform)) {
+        return true;
+    }
+    if (xcopy != 0) {
+        if (checkShapeCollision(otherShape, otherTransform, *shape, transform.move(Vector2D(xcopy * app.gfx.getBounds().x * 2, 0)))) {
+            return true;
+        }
+        if (ycopy != 0) {
+            if (checkShapeCollision(otherShape, otherTransform, *shape, transform.move(Vector2D(xcopy * app.gfx.getBounds().x * 2, ycopy * app.gfx.getBounds().y * 2)))) {
+                return true;
+            }
+        }
+    }
+    if (ycopy != 0) {
+        if (checkShapeCollision(otherShape, otherTransform, *shape, transform.move(Vector2D(0, ycopy * app.gfx.getBounds().y * 2)))) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void FigureManager::add(PFigure figure) {
     figures.push_back(std::move(figure));
 }
@@ -171,10 +223,12 @@ void FigureManager::update() {
 void FigureManager::checkCollisions() {
     for (int i = 0; i < figures.size(); i++) {
         for (int j = i + 1; j < figures.size(); j++) {
-            if (checkShapeCollision(*figures[i]->shape, figures[i]->transform, *figures[j]->shape, figures[j]->transform)) {
+            if (figures[i]->collisionGroup == figures[j]->collisionGroup) {
+                continue;
+            }
+            if (figures[i]->sendCollision(*figures[j])) {
                 figures[i]->collide(*figures[j]);
                 figures[j]->collide(*figures[i]);
-                // std::cout << "Collide " << i << " - " << j << std::endl;
             }
         }
     }
