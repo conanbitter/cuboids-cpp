@@ -1,4 +1,5 @@
 #include "geometry.hpp"
+#include <iostream>
 
 Shape::Shape(bool closed, std::initializer_list<Vector2D> input) {
     float maxRadius = 0;
@@ -31,6 +32,50 @@ void drawGeometry(Renderer& renderer, const Shape* shape, const Transform& trans
     for (Vector2D point : shape->points) {
         renderer.addPoint(transform.apply(point), color);
     }
+}
+
+bool checkShapeCollision(const Shape& shape1, const Transform& transform1, const Shape& shape2, const Transform& transform2) {
+    // Simple distance checking
+    float distance = transform1.offset.distance(transform2.offset);
+    if (distance > (shape1.radius * transform1.scale + shape2.radius * transform2.scale)) {
+        return false;
+    }
+
+    // Using "http://content.gpwiki.org/index.php/Polygon_Collision"
+    // (http://web.archive.org/web/20141127210836/http://content.gpwiki.org/index.php/Polygon_Collision)
+    // Assuming both figures are convex polygons
+
+    for (int i = 0; i < shape1.points.size() - 1; i++) {
+        Vector2D v1 = transform1.apply(shape1.points[i + 1]) - transform1.apply(shape1.points[i]);
+        bool outside = true;
+        for (const Vector2D& point : shape2.points) {
+            Vector2D v2 = transform2.apply(point) - transform1.apply(shape1.points[i]);
+            if (v1.pseudoCross(v2) < 0) {
+                outside = false;
+                break;
+            }
+        }
+        if (outside) {
+            return false;
+        }
+    }
+
+    for (int i = 0; i < shape2.points.size() - 1; i++) {
+        Vector2D v1 = transform2.apply(shape2.points[i + 1]) - transform2.apply(shape2.points[i]);
+        bool outside = true;
+        for (const Vector2D& point : shape1.points) {
+            Vector2D v2 = transform1.apply(point) - transform2.apply(shape2.points[i]);
+            if (v1.pseudoCross(v2) < 0) {
+                outside = false;
+                break;
+            }
+        }
+        if (outside) {
+            return false;
+        }
+    }
+    // std::cout << "Collide" << std::endl;
+    return true;
 }
 
 Figure::Figure(AppWindow& app, Shape* shape, float scale = 1.0f, int collision = 0)
@@ -114,10 +159,23 @@ void FigureManager::update() {
             figure->update();
         }
     }
+    checkCollisions();
     for (size_t i = 0; i < figures.size(); i++) {
         if (figures[i]->state == FigureState::Delete) {
             figures[i] = std::move(figures.back());
             figures.pop_back();
+        }
+    }
+}
+
+void FigureManager::checkCollisions() {
+    for (int i = 0; i < figures.size(); i++) {
+        for (int j = i + 1; j < figures.size(); j++) {
+            if (checkShapeCollision(*figures[i]->shape, figures[i]->transform, *figures[j]->shape, figures[j]->transform)) {
+                figures[i]->collide(*figures[j]);
+                figures[j]->collide(*figures[i]);
+                // std::cout << "Collide " << i << " - " << j << std::endl;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ struct Vector2D {
     bool isZero();
     float length();
     Vector2D toUnit();
-    float distance(const Vector2D& other);
+    float distance(const Vector2D& other) const;
     friend Vector2D& operator+=(Vector2D& left, const Vector2D& right);
     friend Vector2D operator+(Vector2D left, const Vector2D& right);
     friend Vector2D& operator-=(Vector2D& left, const Vector2D& right);

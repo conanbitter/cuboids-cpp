@@ -24,7 +24,7 @@ Vector2D Vector2D::toUnit() {
     return Vector2D(x * len, y * len);
 }
 
-float Vector2D::distance(const Vector2D& other) {
+float Vector2D::distance(const Vector2D& other) const {
     return sqrtf((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y));
 }
 

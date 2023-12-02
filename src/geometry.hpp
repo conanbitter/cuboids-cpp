@@ -46,6 +46,7 @@ class Figure {
     virtual void draw();
     virtual void update() {}
     virtual void move(Vector2D offset);
+    virtual void collide(Figure& other) {}
 };
 
 typedef std::unique_ptr<Figure> PFigure;
@@ -64,6 +65,7 @@ class WrapFigure : public Figure {
 class FigureManager {
    private:
     std::vector<PFigure> figures;
+    void checkCollisions();
 
    public:
     void add(PFigure figure);
