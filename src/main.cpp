@@ -6,46 +6,10 @@
 #include "display/renderer.hpp"
 #include "geometry.hpp"
 #include "constants.hpp"
+#include "figures/ship.hpp"
+#include "figures/aster.hpp"
 
 const Color colorWhite = Color{210, 210, 210, 255};
-
-class Ship : public WrapFigure {
-   public:
-    Ship(AppWindow& app) : WrapFigure(app, &SHAPE_SHIP, SHIP_SCALE, 1) {}
-
-    void update() {
-        Vector2D speed(0, 0);
-        if (app.isKeyPressed(KeyCode::KeyUp)) {
-            speed += Vector2D(0, 1);
-        }
-        if (app.isKeyPressed(KeyCode::KeyDown)) {
-            speed += Vector2D(0, -1);
-        }
-        if (app.isKeyPressed(KeyCode::KeyLeft)) {
-            speed += Vector2D(-1, 0);
-        }
-        if (app.isKeyPressed(KeyCode::KeyRight)) {
-            speed += Vector2D(1, 0);
-        }
-        if (app.isKeyPressed(KeyCode::KeyA)) {
-            color = Color{20, 255, 20, 255};
-        }
-        if (app.isKeyPressed(KeyCode::KeyB)) {
-            transform = transform.rotate(0.05f);
-        }
-        if (app.isKeyPressed(KeyCode::KeyC)) {
-            transform = transform.rotate(-0.05f);
-        }
-        if (!speed.isZero()) {
-            speed = speed.toUnit() * 0.01;
-            move(speed);
-        }
-    }
-
-    void collide(Figure& other) {
-        color = Color{255, 20, 20, 255};
-    }
-};
 
 class GameWindow : public AppWindow {
     FigureManager figureMan;
@@ -53,9 +17,7 @@ class GameWindow : public AppWindow {
    public:
     GameWindow() : AppWindow("Cuboids", 800, 600) {
         figureMan.add(std::make_unique<Ship>(*this));
-        PFigure cube = std::make_unique<WrapFigure>(*this, &SHAPE_ASTER, 0.3f, 2);
-        cube->move(Vector2D(1.2, 1));
-        figureMan.add(std::move(cube));
+        figureMan.add(std::make_unique<Asteroid>(*this, 1.2f, 1.0f));
     }
 
     void onDraw() {

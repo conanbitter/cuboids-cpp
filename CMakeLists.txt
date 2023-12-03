@@ -21,6 +21,12 @@ add_executable(cuboids
     src/geometry.cpp
     src/constants.hpp
     src/constants.cpp
+    src/figures/ship.hpp
+    src/figures/ship.cpp
+    src/figures/aster.hpp
+    src/figures/aster.cpp
+    src/figures/proj.hpp
+    src/figures/proj.cpp
 )
 
 find_package(GLFW REQUIRED)
