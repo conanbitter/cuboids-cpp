@@ -195,7 +195,7 @@ bool WrapFigure::receiveCollision(const Shape& otherShape, const Transform& othe
 
 void FigureManager::add(PFigure figure) {
     figure->man = this;
-    figures.push_back(std::move(figure));
+    accum.push_back(std::move(figure));
 }
 
 void FigureManager::draw() {
@@ -218,6 +218,10 @@ void FigureManager::update() {
             figures[i] = std::move(figures.back());
             figures.pop_back();
         }
+    }
+    if (accum.size() > 0) {
+        figures.insert(figures.end(), std::make_move_iterator(accum.begin()), std::make_move_iterator(accum.end()));
+        accum.clear();
     }
 }
 

@@ -72,6 +72,7 @@ class WrapFigure : public Figure {
 class FigureManager {
    private:
     std::vector<PFigure> figures;
+    std::vector<PFigure> accum;
     void checkCollisions();
 
    public:
