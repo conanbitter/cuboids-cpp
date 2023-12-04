@@ -194,6 +194,7 @@ bool WrapFigure::receiveCollision(const Shape& otherShape, const Transform& othe
 }
 
 void FigureManager::add(PFigure figure) {
+    figure->man = this;
     figures.push_back(std::move(figure));
 }
 

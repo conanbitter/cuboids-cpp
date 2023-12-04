@@ -94,3 +94,7 @@ void AppWindow::setTitle(std::string title) {
 void AppWindow::requestExit() {
     glfwSetWindowShouldClose(window, 1);
 }
+
+double AppWindow::getTime() {
+    return glfwGetTime();
+}

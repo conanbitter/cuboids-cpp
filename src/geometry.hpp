@@ -32,12 +32,15 @@ enum class FigureState {
     Idle
 };
 
+class FigureManager;
+
 class Figure {
    public:
     Shape* shape;
     Transform transform;
     Color color;
     AppWindow& app;
+    FigureManager* man;
     float radius;
     FigureState state;
     int collisionGroup;

@@ -34,6 +34,7 @@ class AppWindow {
     bool isKeyPressed(KeyCode key);
     void requestExit();
     void setTitle(std::string title);
+    double getTime();
 
     virtual void onLoad() {}
     virtual void onUnload() {}
