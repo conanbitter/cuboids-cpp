@@ -10,6 +10,4 @@ class Ship : public WrapFigure {
     void update() override;
 
     void collide(Figure& other) override;
-
-    void draw() override;
 };
