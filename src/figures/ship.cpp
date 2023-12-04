@@ -32,3 +32,11 @@ void Ship::update() {
 void Ship::collide(Figure& other) {
     color = Color{255, 20, 20, 255};
 }
+
+void Ship::draw() {
+    WrapFigure::draw();
+    Vector2D direction = Vector2D::fromPolar(transform.angle, radius);
+    app.gfx.newLine();
+    app.gfx.addPoint(transform.offset, Color{255, 255, 255, 255});
+    app.gfx.addPoint(transform.offset + direction, Color{255, 2, 255, 255});
+}

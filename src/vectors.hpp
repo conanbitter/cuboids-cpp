@@ -17,6 +17,8 @@ struct Vector2D {
     friend Vector2D operator*(const Vector2D& left, const float right);
     friend Vector2D operator/(const Vector2D& left, const float right);
 
+    static Vector2D fromPolar(float angle, float radius);
+
     Vector2D rotate(float angle);
     float pseudoCross(const Vector2D& other);
 };

@@ -67,3 +67,7 @@ Vector2D Vector2D::rotate(float angle) {
 float Vector2D::pseudoCross(const Vector2D& other) {
     return x * other.y - y * other.x;
 }
+
+Vector2D Vector2D::fromPolar(float angle, float radius) {
+    return Vector2D(-radius * sinf(angle), radius * cosf(angle));
+}
