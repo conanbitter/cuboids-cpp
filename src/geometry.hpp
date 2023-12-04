@@ -44,10 +44,11 @@ class Figure {
     float radius;
     FigureState state;
     int collisionGroup;
+    Vector2D speed;
 
     Figure(AppWindow& app, Shape* shape, float scale, int collision);
     virtual void draw();
-    virtual void update() {}
+    virtual void update();
     virtual void move(Vector2D offset);
     virtual void collide(Figure& other) {}
     virtual bool sendCollision(Figure& other);
@@ -64,7 +65,7 @@ class WrapFigure : public Figure {
    public:
     WrapFigure(AppWindow& app, Shape* shape, float scale, int collision) : Figure(app, shape, scale, collision), xcopy(0), ycopy(0) {}
     void draw();
-    void move(Vector2D offset);
+    void update();
     bool sendCollision(Figure& other) override;
     bool receiveCollision(const Shape& otherShape, const Transform& otherTransform) override;
 };

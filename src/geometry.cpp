@@ -79,7 +79,7 @@ bool checkShapeCollision(const Shape& shape1, const Transform& transform1, const
 }
 
 Figure::Figure(AppWindow& app, Shape* shape, float scale = 1.0f, int collision = 0)
-    : app(app), shape(shape), collisionGroup(collision) {
+    : app(app), shape(shape), collisionGroup(collision), speed(0, 0) {
     transform.scale = scale;
     color = Color{200, 200, 200, 255};
     radius = shape->radius * scale;
@@ -88,6 +88,10 @@ Figure::Figure(AppWindow& app, Shape* shape, float scale = 1.0f, int collision =
 
 void Figure::draw() {
     drawGeometry(app.gfx, shape, transform, color);
+}
+
+void Figure::update() {
+    move(speed);
 }
 
 void Figure::move(Vector2D offset) {
@@ -102,8 +106,8 @@ bool Figure::receiveCollision(const Shape& otherShape, const Transform& otherTra
     return checkShapeCollision(otherShape, otherTransform, *shape, transform);
 }
 
-void WrapFigure::move(Vector2D offset) {
-    Figure::move(offset);
+void WrapFigure::update() {
+    Figure::update();
     Vector2D bounds = app.gfx.getBounds();
     float thickness = app.gfx.getThickness();
     if (transform.offset.x > bounds.x) {
