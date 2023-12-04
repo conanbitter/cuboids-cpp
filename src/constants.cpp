@@ -30,3 +30,5 @@ const float ASTER_SCALE = 0.2;
 
 const float PROJ_SCALE = 0.05;
 const float PROJ_SPEED = 0.01;
+
+const double SHIP_SHOOTING_PERIOD = 1.5f;

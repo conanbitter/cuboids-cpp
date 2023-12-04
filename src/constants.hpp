@@ -13,6 +13,7 @@ extern const float SHIP_MAX_SPEED;
 extern const float SHIP_ACCELERATION;
 extern const float SHIP_DRAG;
 extern const float SHIP_ROT_SPEED;
+extern const double SHIP_SHOOTING_PERIOD;
 
 extern const float ASTER_SCALE;
 
