@@ -17,7 +17,7 @@ class GameWindow : public AppWindow {
    public:
     GameWindow() : AppWindow("Cuboids", 800, 600) {
         figureMan.add(std::make_unique<Ship>(*this));
-        figureMan.add(std::make_unique<Asteroid>(*this, 1.2f, 1.0f));
+        figureMan.add(std::make_unique<Asteroid>(*this, 1.0f, 0.0f));
     }
 
     void onDraw() {
