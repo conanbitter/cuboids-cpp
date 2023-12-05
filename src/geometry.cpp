@@ -231,8 +231,12 @@ void FigureManager::update() {
 
 void FigureManager::checkCollisions() {
     for (int i = 0; i < figures.size(); i++) {
+        if (figures[i]->state != FigureState::Active) {
+            continue;
+        }
+
         for (int j = i + 1; j < figures.size(); j++) {
-            if (figures[i]->collisionGroup == figures[j]->collisionGroup) {
+            if (figures[j]->state != FigureState::Active || figures[i]->collisionGroup == figures[j]->collisionGroup) {
                 continue;
             }
             if (figures[i]->sendCollision(*figures[j])) {

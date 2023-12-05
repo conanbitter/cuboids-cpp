@@ -1,6 +1,8 @@
 #pragma once
 
 #include "geometry.hpp"
+#include "vectors.hpp"
+#include <array>
 
 extern Shape SHAPE_SHIP;
 
@@ -16,6 +18,11 @@ extern const float SHIP_ROT_SPEED;
 extern const double SHIP_SHOOTING_PERIOD;
 
 extern const float ASTER_SCALE;
+extern const float ASTER_KA;
+extern const float ASTER_KR;
+extern const float ASTER_KP;
+extern const float ASTER_KE;
+extern const std::array<Vector2D, 4> ASTER_CHILD_OFFSETS;
 
 extern const float PROJ_SCALE;
 extern const float PROJ_SPEED;
