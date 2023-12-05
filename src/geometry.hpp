@@ -66,6 +66,7 @@ class WrapFigure : public Figure {
     WrapFigure(AppWindow& app, Shape* shape, float scale, int collision) : Figure(app, shape, scale, collision), xcopy(0), ycopy(0) {}
     void draw();
     void update();
+    void updateCopies();
     bool sendCollision(Figure& other) override;
     bool receiveCollision(const Shape& otherShape, const Transform& otherTransform) override;
 };

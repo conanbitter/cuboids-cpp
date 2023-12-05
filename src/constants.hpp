@@ -23,6 +23,8 @@ extern const float ASTER_KR;
 extern const float ASTER_KP;
 extern const float ASTER_KE;
 extern const std::array<Vector2D, 4> ASTER_CHILD_OFFSETS;
+extern const int ASTER_MAX_LEVEL;
+extern const float ASTER_ROT_ACCEL;
 
 extern const float PROJ_SCALE;
 extern const float PROJ_SPEED;

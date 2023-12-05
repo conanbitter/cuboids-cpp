@@ -106,8 +106,7 @@ bool Figure::receiveCollision(const Shape& otherShape, const Transform& otherTra
     return checkShapeCollision(otherShape, otherTransform, *shape, transform);
 }
 
-void WrapFigure::update() {
-    Figure::update();
+void WrapFigure::updateCopies() {
     Vector2D bounds = app.gfx.getBounds();
     float thickness = app.gfx.getThickness();
     if (transform.offset.x > bounds.x) {
@@ -138,6 +137,11 @@ void WrapFigure::update() {
     } else {
         ycopy = 0;
     }
+}
+
+void WrapFigure::update() {
+    Figure::update();
+    updateCopies();
 }
 
 void WrapFigure::draw() {
