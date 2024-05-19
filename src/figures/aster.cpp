@@ -19,6 +19,7 @@ Asteroid::Asteroid(AppWindow& app, Transform transform, Vector2D speed, float ro
 }
 
 void Asteroid::update() {
+    if (speed.length() > ASTER_MAX_SPEED[level]) speed = speed * ASTER_SPEED_DAMPING;
     WrapFigure::update();
     transform = transform.rotate(rotationSpeed);
 }
@@ -35,6 +36,7 @@ void Asteroid::collide(Figure& other) {
             transform.scale / 2.0f,
             transform.angle);
 
+        // TODO mass must affect speeds
         Vector2D a = speed;
         Vector2D e = (offset * transform.scale).rotate(transform.angle);
         Vector2D r = e - (offset * transform.scale).rotate(transform.angle - rotationSpeed);
@@ -44,7 +46,7 @@ void Asteroid::collide(Figure& other) {
         man->add(std::make_unique<Asteroid>(
             app,
             newTransform,
-            newSpeed.toUnit() * 0.005,
+            newSpeed.toUnit() * ASTER_MAX_SPEED[ASTER_MAX_LEVEL],  // TODO instead of constant speed adjust speed fit in certain window (min,max)
             rotationSpeed * ASTER_ROT_ACCEL,
             level + 1));
     }
